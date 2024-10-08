@@ -34,7 +34,7 @@ body {
     border: 1px solid #ccc; /* Light grey border for inputs */
     border-radius: 5px; /* Rounded corners */
     font-size: 14px; /* Font size for inputs */
-    background-color: rgba(255, 255, 255, 0.9); /* Slightly transparent white background for inputs */
+    background-color: rgba(158, 76, 76, 0.9); /* Slightly transparent white background for inputs */
   }
   
   .payment-form input:focus,

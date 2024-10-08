@@ -2,7 +2,7 @@ import { useContext, useState } from "react";
 import { UserContext } from '../../context/userContext';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
-//import './Dashboard.css';
+
 
 export default function Dashboard() {
     const { user } = useContext(UserContext);

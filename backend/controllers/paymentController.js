@@ -26,6 +26,33 @@ const savePayment = async (req, res) => {
 
 };
 
+
+//     // Validate using backend RegEx (optional, but recommended for security)
+//     const amountPattern = /^\d+(\.\d{1,2})?$/;
+//     const swiftCodePattern = /^[A-Za-z0-9]{8,11}$/;
+
+
+//     if (!amountPattern.test(amount)) {
+//         return res.json({ error: 'Invalid amount format' });
+//     }
+
+//     if (!swiftCodePattern.test(swiftCode)) {
+//         return res.json({ error: 'Invalid SWIFT code format' });
+//     }
+
+//     try {
+//         const payment = await Payment.create({
+//             amount,
+//             currency,
+//             swiftCode
+//         });
+//         res.json({ success: true, payment });
+//     } catch (error) {
+//         console.error(error);
+//         res.json({ success: false, error: 'Failed to save payment' });
+//     }
+// };
+
 module.exports = {
     savePayment
 };

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
-import './Login.css';
+
 
 export default function Login() {
   const navigate = useNavigate();
@@ -10,28 +10,6 @@ export default function Login() {
     username: '',  // Change from email to username
     password: '',  // Ensure 'Password' is lowercase to match the key
   });
-
-   // Define regex patterns
-   const usernamePattern = /^[a-zA-Z0-9]{4,15}$/;  // Alphanumeric, 4-15 characters
-   const passwordPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,}$/;  // Minimum 6 characters, at least 1 uppercase letter, 1 lowercase letter, and 1 number
- 
-   const loginUser = async (e) => {
-     e.preventDefault();
-     const { username, password } = data;
- 
-     // Validate username with regex
-     if (!usernamePattern.test(username)) {
-       toast.error('Username should be 4-15 characters and contain only letters and numbers');
-       return;
-     }
- 
-     // Validate password with regex
-     if (!passwordPattern.test(password)) {
-       toast.error('Password must be at least 6 characters, contain 1 uppercase letter, 1 lowercase letter, and 1 number');
-       return;
-     }
-
-
 
   const loginUser = async (e) => {
     e.preventDefault();
