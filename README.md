@@ -5,6 +5,8 @@ MATHEW SCRUSE ST10083471
 SALMAAN MALL ST10154889
 SIPHELELISILE MBAMBO ST10145327
 
+Video link:https://youtu.be/1lY8LyHw0dQ
+
 # User Registration and Login System
 
 This is a user registration and login system built with React, Express, Node.js, and MongoDB. The system allows users to register with a username, ID number, account number, and password, which are validated using regex patterns. It also implements secure authentication and stores data in a MongoDB database.
@@ -25,7 +27,7 @@ This is a user registration and login system built with React, Express, Node.js,
 - **Database**: MongoDB
 - **Authentication**: JWT (JSON Web Tokens)
 - **Validation**: Regex patterns
-- **Security**: Helmet, Express-Brute
+- **Security**: Helmet, Express-Brute, dotenv, express, Cors
 
 ## Installation and Setup
 
