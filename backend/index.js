@@ -1,10 +1,10 @@
 const express = require('express');
 const dotenv = require('dotenv').config()
-const cors = require('cors'); 
+const cors = require('cors');
+const helmet = require('helmet');
+const ExpressBrute = require('express-brute'); 
 const {mongoose} = require('mongoose');
-const cookieParser = require('cookie-parser')
-// const paymentRoutes = require('./routes/paymentRoutes');
-
+const cookieParser = require('cookie-parser');
 
 
 
@@ -19,9 +19,16 @@ mongoose.connect(process.env.MONGO_URL)
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({extended: false}))
+app.use(helmet());
 
+app.use(cors({
+    credentials: true,
+    origin: 'http://localhost:5173'
+  }));
 
+app.use(express.json());
 
+ 
 app.use('/', require('./routes/authRoutes'))
 
 app.use('/api/payments', require('./routes/payRoutes'));
