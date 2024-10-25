@@ -15,13 +15,13 @@ import Dashboard from './pages/Dashboard';
 
 
 
-axios.defaults.baseURL = 'http://localhost:8000';
+axios.defaults.baseURL = 'https://localhost:8000';
 axios.defaults.withCredentials =true
 
 function App() {
   return (
     <UserContextProvider>
-      <Navbar />
+      {/* <Navbar /> */}
         <Toaster position="bottom-right" toastOptions={{ duration: 2000 }} />
         <Routes>
           <Route path='/' element={<Home />} />

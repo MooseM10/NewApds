@@ -19,7 +19,7 @@ export default function Dashboard() {
         e.preventDefault();
         const { amount, currency, swiftCode, reference, accountNumber, provider} = paymentData;
         try {
-            const { data } = await axios.post('api/payments/makePayment', {
+            const { data } = await axios.post('https://localhost:8000/api/payments/makePayment', {
                 amount,
                 currency,
                 swiftCode,
