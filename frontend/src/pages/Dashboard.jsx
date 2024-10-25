@@ -2,6 +2,11 @@ import { useContext, useState } from "react";
 import { UserContext } from '../../context/userContext';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import { Button } from "../components/ui/Button"
+import { Input } from "../components/ui/Input"
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/Card"
+import { LogOut, User } from 'lucide-react'
+
 
 
 export default function Dashboard() {
@@ -42,7 +47,7 @@ export default function Dashboard() {
 
     return (
         <div className="payment-container">
-        <h1>Dashboard</h1>
+        <h1>Customer International Payment</h1>
         {!!user && <h2>Hi {user.username}!</h2>}
   
         {/* Payment form */}
@@ -109,12 +114,8 @@ export default function Dashboard() {
               }
             />
           </div>
-
-
-  
           <button type='submit'>Save Payment</button>
         </form>
       </div>
     );
 }
-

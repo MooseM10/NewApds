@@ -5,8 +5,11 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const fs = require('fs');
 const https = require('https');
+const { loginUser } = require('./controllers/authController');
 
 const app = express();
+
+
 
 // Database connection
 mongoose.connect(process.env.MONGO_URL)
