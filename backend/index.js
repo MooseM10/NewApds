@@ -6,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const fs = require('fs');
 const https = require('https');
 const { loginUser } = require('./controllers/authController');
+const { isAuthenticated, isEmployee } = require('./middleware/authMiddleware'); 
 
 const app = express();
 
@@ -38,7 +39,9 @@ app.use((err, req, res, next) => {
 // Routes
 app.use('/', require('./routes/authRoutes'));
 app.use('/api/payments', require('./routes/payRoutes'));
-app.use('/api/employee', require('./routes/employeeRoutes'));
+// app.use('/api/employee', require('./routes/employeeRoutes'));
+app.use('/api/employee', isAuthenticated, isEmployee, require('./routes/employeeRoutes'));
+
 
 // SSL Configuration
 const privateKey = fs.readFileSync('privatekey.pem', 'utf8');

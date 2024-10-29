@@ -28,6 +28,7 @@ const registerUser = async (req, res) => {
         return res.status(201).json({
             id: user._id,
             username: user.username,
+            role: user.role,
             message: 'User registered successfully',
         });
     } catch (error) {
@@ -51,7 +52,7 @@ const loginUser = async (req, res) => {
 
         // Sign JWT token with expiration
         const token = jwt.sign(
-            { username: user.username, id: user._id },
+            { username: user.username, id: user._id, role: user.role},
             process.env.JWT_SECRET,
             { expiresIn: '1h' } // Set expiration time
         );
@@ -68,6 +69,17 @@ const loginUser = async (req, res) => {
     }
 };
 
+const authenticateToken = (req, res, next) => {
+    const token = req.cookies.token;
+    if (!token) return res.sendStatus(401); // No token, unauthorized
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) return res.sendStatus(403); // Invalid token
+        req.user = user; // Attach user info to request
+        next(); // Proceed to the next middleware or route handler
+    });
+};
+
 // Get profile endpoint
 const getProfile = (req, res) => {
     const { token } = req.cookies;
@@ -81,6 +93,8 @@ const getProfile = (req, res) => {
         res.json(null); // No token, no profile data
     }
 };
+
+
 
 module.exports = {
     test,

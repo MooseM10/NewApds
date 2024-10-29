@@ -8,12 +8,12 @@ const EmployeeDashboard = () => {
     useEffect(() => {
         const fetchTransactions = async () => {
             try {
-                const response = await axios.get('https://localhost:8000/api/payments/transactions', {
+                const response = await axios.get('https://localhost:8000/api/employee/transactions', {
                     withCredentials: true
                 });
                 setTransactions(response.data);
             } catch (error) {
-                console.error("Error fetching transactions:", error);
+                console.error("Error fetching transactions:", error.message || error);
             }
         };
 
