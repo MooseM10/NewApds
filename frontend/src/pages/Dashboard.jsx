@@ -22,8 +22,15 @@ export default function Dashboard() {
 
     const handlePayment = async (e) => {
         e.preventDefault();
+
+        if (!user) {
+          toast.error('You must be logged in to make a payment');
+          return; // Exit the function if user is null
+      }
+
         const { amount, currency, swiftCode, reference, accountNumber, provider} = paymentData;
         try {
+          const token = localStorage.getItem('token');
             const { data } = await axios.post('https://localhost:8000/api/payments/makePayment', {
                 amount,
                 currency,
@@ -31,8 +38,9 @@ export default function Dashboard() {
                 reference,
                 accountNumber,
                 provider,
-                userId: user.id, // Send user ID for payment association
+                userId: user.id,
             });
+            
             if (data.error) {
                 toast.error(data.error);
             } else {
@@ -40,7 +48,7 @@ export default function Dashboard() {
                 setPaymentData({ amount: '', currency: 'USD', swiftCode: '',reference: '',accountNumber: '',provider:'SWIFT' });
             }
         } catch (error) {
-            console.log(error);
+          console.log(error.response ? error.response.data : error.message);
             toast.error('Failed to save payment information');
         }
     };

@@ -77,6 +77,7 @@ const getProfile = (req, res) => {
             res.json(user); // Send user profile details
         });
     } else {
+        console.log('Retrieving profile for user with token:', req.cookies.token);
         res.json(null); // No token, no profile data
     }
 };

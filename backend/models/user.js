@@ -1,32 +1,3 @@
-// const mongoose = require('mongoose');
-// const { Schema } = mongoose;
-
-// const userSchema = new Schema({
-//     username: {
-//         type: String,
-//         required: true,
-//         unique: true
-//     },
-//     idNumber: {
-//         type: String,
-//         required: true,
-//         unique: true
-//     },
-//     accountNumber: {
-//         type: String,
-//         required: true,
-//         unique: true
-//     },
-//     password: {
-//         type: String,
-//         required: true
-//     }
-// });
-
-
-// const UserModel = mongoose.model('User', userSchema);
-
-// module.exports = UserModel;
 
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
@@ -51,6 +22,11 @@ const userSchema = new Schema({
     password: {
         type: String,
         required: true
+    },
+    role: {
+        type: String,
+        enum: ['User','Employee', 'Admin'],
+        default: 'User'
     }
 }, { timestamps: true }); // Add timestamps
 

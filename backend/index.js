@@ -29,15 +29,20 @@ app.use(cors(corsOptions)); // Set CORS options before any routes
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something broke!');
+});
 
 // Routes
 app.use('/', require('./routes/authRoutes'));
 app.use('/api/payments', require('./routes/payRoutes'));
+app.use('/api/employee', require('./routes/employeeRoutes'));
 
 // SSL Configuration
 const privateKey = fs.readFileSync('privatekey.pem', 'utf8');
 const certificate = fs.readFileSync('certificate.pem', 'utf8');
-
 const credentials = { key: privateKey, cert: certificate };
 
 const port = 8000;
