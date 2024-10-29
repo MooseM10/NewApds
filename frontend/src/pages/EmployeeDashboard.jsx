@@ -38,13 +38,13 @@ const EmployeeDashboard = () => {
                 <tbody>
                     {transactions.map(transaction => (
                         <tr key={transaction._id}>
-                            <td>{transaction.userId.username}</td>
-                            <td>{transaction.amount}</td>
-                            <td>{transaction.currency}</td>
-                            <td>{transaction.provider}</td>
-                            <td>{transaction.accountNumber}</td>
-                            <td>{transaction.status}</td>
-                            <td>{new Date(transaction.createdAt).toLocaleString()}</td>
+                            <td style={{ color: '#333' }}>{transaction.userId.username}</td>
+                            <td style={{ color: '#333' }}>{transaction.amount}</td>
+                            <td style={{ color: '#333' }}>{transaction.currency}</td>
+                            <td style={{ color: '#333' }}>{transaction.provider}</td>
+                            <td style={{ color: '#333' }}>{transaction.accountNumber}</td>
+                            <td style={{ color: '#333' }}>{transaction.status}</td>
+                            <td style={{ color: '#333' }}>{new Date(transaction.createdAt).toLocaleString()}</td>
                         </tr>
                     ))}
                 </tbody>
