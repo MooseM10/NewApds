@@ -2,7 +2,8 @@ const express = require('express');
 const router = express.Router();
 const cors = require('cors');
 const rateLimit = require('express-rate-limit');
-const { test, registerUser, loginUser, getProfile } = require('../controllers/authController')
+const { test, registerUser, loginUser, getProfile } = require('../controllers/authController');
+const { isAuthenticated } = require('../middleware/authMiddleware');
 
 
 //middleware
@@ -31,7 +32,7 @@ const registerLimiter = rateLimit({
 router.get('/', test)
 router.post('/register',registerLimiter, registerUser)
 router.post('/login',loginLimiter, loginUser)
-router.get('/profile', getProfile)
+router.get('/profile',isAuthenticated, getProfile)
 
 
 
