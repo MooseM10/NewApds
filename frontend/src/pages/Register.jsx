@@ -48,6 +48,8 @@ export default function Register() {
       return;  // Stop the registration if validation fails
     }
 
+    setLoading(true);
+
     const { username, idNumber, accountNumber, password } = data;
 
     try {
@@ -67,7 +69,10 @@ export default function Register() {
         navigate('/login');
       }
     } catch (error) {
+      toast.error('Registration failed. Please try again later.');
       console.log(error);
+    } finally {
+      setLoading(false);
     }
   };
   
