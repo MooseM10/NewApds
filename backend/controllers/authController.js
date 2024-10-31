@@ -11,49 +11,29 @@ const registerUser = async (req, res) => {
     try {
         const { username, idNumber, accountNumber, password } = req.body;
 
-        // Check if username is provided
-        if (!username) {
-            return res.json({ error: 'Please enter username' });
-        }
+        // Check required fields
+        if (!username) return res.status(400).json({ error: 'Please enter username' });
+        if (!idNumber) return res.status(400).json({ error: 'Please enter ID number' });
+        if (!accountNumber) return res.status(400).json({ error: 'Please enter account number' });
+        if (!password || password.length < 6) return res.status(400).json({ error: 'Password required and should be 6 characters long' });
 
-        // Check if ID number is provided
-        if (!idNumber) {
-            return res.json({ error: 'Please enter ID number' });
-        }
+        // Check for existing user
+        const existingUser = await User.findOne({ $or: [{ username }, { idNumber }, { accountNumber }] });
+        if (existingUser) return res.status(400).json({ error: 'Username, ID number, or account number is already used' });
 
-        // Check if account number is provided
-        if (!accountNumber) {
-            return res.json({ error: 'Please enter account number' });
-        }
-
-        // Check password
-        if (!password || password.length < 6) {
-            return res.json({ error: 'Password required and should be 6 characters long' });
-        }
-
-        // Check if username, ID number, or account number is already used
-        const existingUser = await User.findOne({
-            $or: [{ username }, { idNumber }, { accountNumber }]
-        });
-
-        if (existingUser) {
-            return res.json({ error: 'Username, ID number, or account number is already used' });
-        }
-
-        // Hash the password
+        // Hash and create user
         const hashedPassword = await hashPassword(password);
+        const user = await User.create({ username, idNumber, accountNumber, password: hashedPassword });
 
-        // Create user in database
-        const user = await User.create({
-            username,
-            idNumber,
-            accountNumber,
-            password: hashedPassword,
+        return res.status(201).json({
+            id: user._id,
+            username: user.username,
+            role: user.role,
+            message: 'User registered successfully',
         });
-
-        return res.json(user);
     } catch (error) {
-        console.log(error);
+        console.error(error);
+        return res.status(500).json({ error: 'Internal server error' });
     }
 };
 
@@ -64,28 +44,40 @@ const loginUser = async (req, res) => {
 
         // Check if user exists
         const user = await User.findOne({ username });
-        if (!user) {
-            return res.json({ error: 'No user found' });
-        }
+        if (!user) return res.status(404).json({ error: 'No user found' });
 
         // Check if passwords match
         const match = await comparePassword(password, user.password);
-        if (match) {
-            jwt.sign(
-                { username: user.username, id: user._id },//Accont number to login?
-                process.env.JWT_SECRET,
-                {},
-                (err, token) => {
-                    if (err) throw err;
-                    res.cookie('token', token).json(user);
-                }
-            );
-        } else {
-            res.json({ error: 'Password incorrect' });
-        }
+        if (!match) return res.status(401).json({ error: 'Password incorrect' });
+
+        // Sign JWT token with expiration
+        const token = jwt.sign(
+            { username: user.username, id: user._id, role: user.role},
+            process.env.JWT_SECRET,
+            { expiresIn: '1h' } // Set expiration time
+        );
+
+        // Set the secure cookie with proper flags for SSL
+        res.cookie('token', token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === 'production', // This should be true in production
+            sameSite: 'strict',
+        }).json({ user: { username: user.username, id: user._id }, message: 'Login successful' });
     } catch (error) {
-        console.log(error);
+        console.error(error);
+        return res.status(500).json({ error: 'Internal server error' });
     }
+};
+
+const authenticateToken = (req, res, next) => {
+    const token = req.cookies.token;
+    if (!token) return res.sendStatus(401); // No token, unauthorized
+
+    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+        if (err) return res.sendStatus(403); // Invalid token
+        req.user = user; // Attach user info to request
+        next(); // Proceed to the next middleware or route handler
+    });
 };
 
 // Get profile endpoint
@@ -93,16 +85,14 @@ const getProfile = (req, res) => {
     const { token } = req.cookies;
     if (token) {
         jwt.verify(token, process.env.JWT_SECRET, {}, (err, user) => {
-            if (err) throw err;
-            res.json(user);
+            if (err) return res.status(401).json({ error: 'Invalid token' });
+            res.json(user); // Send user profile details
         });
     } else {
-        res.json(null);
+        console.log('Retrieving profile for user with token:', req.cookies.token);
+        res.json(null); // No token, no profile data
     }
 };
-
-
-
 
 
 
@@ -111,5 +101,4 @@ module.exports = {
     registerUser,
     loginUser,
     getProfile,
-    
 };

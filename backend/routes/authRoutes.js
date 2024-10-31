@@ -1,21 +1,38 @@
 const express = require('express');
 const router = express.Router();
 const cors = require('cors');
-const { test, registerUser, loginUser, getProfile } = require('../controllers/authController')
+const rateLimit = require('express-rate-limit');
+const { test, registerUser, loginUser, getProfile } = require('../controllers/authController');
+const { isAuthenticated } = require('../middleware/authMiddleware');
+
 
 //middleware
 
 router.use(
     cors({
         credentials:true,
-        origin: 'http://localhost:5173'
+        origin: 'https://localhost:5173'
     })
-)
+);
+
+// Configure the rate limiter for login
+const loginLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 5, // Limit each IP to 5 login attempts per window
+    message: 'Too many login attempts, please try again later.',
+});
+
+// Configure the rate limiter for registration
+const registerLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000, // 15 minutes
+    max: 10, // Limit each IP to 10 registration attempts per window
+    message: 'Too many registration attempts, please try again later.',
+});
 
 router.get('/', test)
-router.post('/register', registerUser)
-router.post('/login', loginUser)
-router.get('/profile', getProfile)
+router.post('/register',registerLimiter, registerUser)
+router.post('/login',loginLimiter, loginUser)
+router.get('/profile',isAuthenticated, getProfile)
 
 
 

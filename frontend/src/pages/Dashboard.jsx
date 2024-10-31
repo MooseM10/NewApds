@@ -2,6 +2,11 @@ import { useContext, useState } from "react";
 import { UserContext } from '../../context/userContext';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
+import { Button } from "../components/ui/Button"
+import { Input } from "../components/ui/Input"
+import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/Card"
+import { LogOut, User } from 'lucide-react'
+
 
 
 export default function Dashboard() {
@@ -17,17 +22,25 @@ export default function Dashboard() {
 
     const handlePayment = async (e) => {
         e.preventDefault();
+
+        if (!user) {
+          toast.error('You must be logged in to make a payment');
+          return; // Exit the function if user is null
+      }
+
         const { amount, currency, swiftCode, reference, accountNumber, provider} = paymentData;
         try {
-            const { data } = await axios.post('api/payments/makePayment', {
+          const token = localStorage.getItem('token');
+            const { data } = await axios.post('https://localhost:8000/api/payments/makePayment', {
                 amount,
                 currency,
                 swiftCode,
                 reference,
                 accountNumber,
                 provider,
-                userId: user.id, // Send user ID for payment association
+                userId: user.id,
             });
+            
             if (data.error) {
                 toast.error(data.error);
             } else {
@@ -35,14 +48,14 @@ export default function Dashboard() {
                 setPaymentData({ amount: '', currency: 'USD', swiftCode: '',reference: '',accountNumber: '',provider:'SWIFT' });
             }
         } catch (error) {
-            console.log(error);
+          console.log(error.response ? error.response.data : error.message);
             toast.error('Failed to save payment information');
         }
     };
 
     return (
         <div className="payment-container">
-        <h1>Dashboard</h1>
+        <h1>Customer International Payment</h1>
         {!!user && <h2>Hi {user.username}!</h2>}
   
         {/* Payment form */}
@@ -109,12 +122,8 @@ export default function Dashboard() {
               }
             />
           </div>
-
-
-  
           <button type='submit'>Save Payment</button>
         </form>
       </div>
     );
 }
-

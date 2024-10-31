@@ -80,34 +80,38 @@ export default function Register() {
   return (
     <div className="register-container">
     <form className="register-form" onSubmit={registerUser}>
-      <label>Username</label>
+      <label>Username:</label>
       <input
         type='text'
         placeholder='Enter username'
         value={data.username}
         onChange={(e) => setData({ ...data, username: e.target.value })}
       />
-      <label>ID Number</label>
+      <br></br>
+      <label>ID Number:</label>
       <input
         type='text'
         placeholder='Enter ID number'
         value={data.idNumber}
         onChange={(e) => setData({ ...data, idNumber: e.target.value })}
       />
-      <label>Account Number</label>
+         <br></br>
+      <label>Account Number:</label>
       <input
         type='text'
         placeholder='Enter account number'
         value={data.accountNumber}
         onChange={(e) => setData({ ...data, accountNumber: e.target.value })}
       />
-      <label>Password</label>
+         <br></br>
+      <label>Password:</label>
       <input
         type='password'
         placeholder='Enter password'
         value={data.password}
         onChange={(e) => setData({ ...data, password: e.target.value })}
       />
+         <br></br>
       <button type='submit'>Submit</button>
     </form>
   </div>
