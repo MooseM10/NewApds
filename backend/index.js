@@ -56,6 +56,18 @@ app.use((err, req, res, next) => {
     res.status(500).send('Something broke!');
 });
 
+//Logout
+app.post('/logout', (req, res) => {
+    req.logout(); // This function may vary based on your authentication library
+    req.session.destroy(err => {
+        if (err) {
+            return res.status(500).json({ error: 'Logout failed' });
+        }
+        res.clearCookie('connect.sid'); // Clear session cookie if using sessions
+        res.status(200).json({ message: 'Logout successful' });
+    });
+});
+
 // Routes
 app.use('/', require('./routes/authRoutes'));
 app.use('/api/payments', require('./routes/payRoutes'));

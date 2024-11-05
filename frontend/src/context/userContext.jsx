@@ -1,5 +1,6 @@
 import axios from 'axios';
 import React,  { createContext, useState, useEffect } from 'react';
+import { toast } from 'react-hot-toast';
 
 // Set up Axios defaults (or configure a custom instance if needed)
 axios.defaults.baseURL = 'http://localhost:8000';
@@ -29,15 +30,19 @@ const UserContextProvider = ({ children }) => {
 
     const logout = async () => {
         try {
-            await axios.post('/logout');
-            setUser(null);
+            const response = await axios.post('/logout');
+            if (response.status === 200) {
+                setUser(null); // Clear user state on successful logout
+                toast.success('Logged out successfully!'); // Optional: notify the user
+            }
         } catch (error) {
             console.error('Logout failed:', error);
+            toast.error('Logout failed. Please try again.'); // Optional: notify the user
         }
     };
 
     return (
-        <UserContext.Provider value={{ user, setUser, isFetchingUser }}>
+        <UserContext.Provider value={{ user, setUser, isFetchingUser,logout }}>
             {children}
         </UserContext.Provider>
     );

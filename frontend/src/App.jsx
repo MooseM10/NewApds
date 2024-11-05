@@ -12,7 +12,7 @@ import { Toaster } from 'react-hot-toast'
 import { UserContextProvider } from '../context/userContext';
 import Dashboard from './pages/Dashboard';
 import EmployeeDashboard from './pages/EmployeeDashboard';
-import SetupUserForm from './pages/SetupUserForm';
+
 
 
 
@@ -31,7 +31,6 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/transactions' element={<EmployeeDashboard />} />
-          {/* <Route path='/setup' element={<SetupUserForm />} /> */}
         </Routes>
     </UserContextProvider>
   );

@@ -88,14 +88,24 @@ const loginUser = async (req, res) => {
     }
 };
 
-const authenticateToken = (req, res, next) => {
-    const token = req.cookies.token;
-    if (!token) return res.sendStatus(401); // No token, unauthorized
+// const authenticateToken = (req, res, next) => {
+//     const token = req.cookies.token;
+//     if (!token) return res.sendStatus(401); // No token, unauthorized
 
-    jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
-        if (err) return res.sendStatus(403); // Invalid token
-        req.user = user; // Attach user info to request
-        next(); // Proceed to the next middleware or route handler
+//     jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+//         if (err) return res.sendStatus(403); // Invalid token
+//         req.user = user; // Attach user info to request
+//         next(); // Proceed to the next middleware or route handler
+//     });
+// };
+const authenticateToken = (req, res, next) => {
+    const token = req.headers['authorization']?.split(' ')[1]; // Assuming Bearer token
+    if (!token) return res.sendStatus(401); // Unauthorized
+
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, user) => {
+        if (err) return res.sendStatus(403); // Forbidden
+        req.user = user; // Save user info for request
+        next();
     });
 };
 
@@ -113,6 +123,45 @@ const getProfile = (req, res) => {
     }
 };
 
+// Setup user endpoint
+const setupUser = async (req, res) => {
+    try {
+        const { username, idNumber, accountNumber, password, role } = req.body;
+
+        // Check required fields
+        if (!username) return res.status(400).json({ error: 'Please enter username' });
+        if (!idNumber) return res.status(400).json({ error: 'Please enter ID number' });
+        if (!accountNumber) return res.status(400).json({ error: 'Please enter account number' });
+        if (!password || password.length < 6) return res.status(400).json({ error: 'Password required and should be at least 6 characters long' });
+
+        // Check if password contains at least one letter and one number
+        const hasLetter = /[a-zA-Z]/.test(password);
+        const hasNumber = /\d/.test(password);
+        if (!hasLetter || !hasNumber) {
+            return res.status(400).json({ error: 'Password must contain at least one letter and one number' });
+        }
+
+        // Check for existing user
+        const existingUser = await User.findOne({ $or: [{ username }, { idNumber }, { accountNumber }] });
+        if (existingUser) {
+            return res.status(400).json({ error: 'Username, ID number, or account number is already used' });
+        }
+
+        // Hash and create user
+        const hashedPassword = await hashPassword(password);
+        const user = await User.create({ username, idNumber, accountNumber, password: hashedPassword, role });
+
+        return res.status(201).json({
+            id: user._id,
+            username: user.username,
+            role: user.role,
+            message: 'User setup successfully',
+        });
+    } catch (error) {
+        console.error(error);
+        return res.status(500).json({ error: 'Internal server error' });
+    }
+};
 
 
 module.exports = {
@@ -120,4 +169,6 @@ module.exports = {
     registerUser,
     loginUser,
     getProfile,
+    authenticateToken,
+    setupUser
 };
