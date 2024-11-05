@@ -1,125 +1,120 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { toast } from 'react-hot-toast';
-import { useNavigate } from 'react-router-dom';
-import { Button } from "../components/ui/Button"
-import { Input } from "../components/ui/Input"
-import { Card, CardContent, CardHeader, CardTitle } from "../components/ui/Card"
-import { LogOut, User } from 'lucide-react'
+'use client'
 
+import React, { useState } from 'react'
+import axios from 'axios'
+import { toast } from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
+import { Lock, User, CreditCard } from 'lucide-react'
 
 export default function Login() {
-  const navigate = useNavigate();
+  const navigate = useNavigate()
   const [data, setData] = useState({
     username: '',
     password: '',
-  });
-  const [isLoading, setIsLoading] = useState(false);
+    rememberMe: false,
+  })
+  const [isLoading, setIsLoading] = useState(false)
 
   const loginUser = async (e) => {
-    e.preventDefault();
-    const { username, password } = data;
+    e.preventDefault()
+    const { username, password } = data
 
     if (!username || !password) {
-      toast.error('Please enter both username and password.');
-      return;
+      toast.error('Please enter both username and password.')
+      return
     }
 
-    setIsLoading(true);
+    setIsLoading(true)
 
     try {
-      const response = await axios.post('https://localhost:8000/login', { username, password });
+      const response = await axios.post('https://localhost:8000/login', { username, password })
 
       if (response.data.error) {
-        toast.error(response.data.error);
+        toast.error(response.data.error)
       } else {
-        setData({ username: '', password: '' });
-        navigate('/dashboard');
+        setData({ username: '', password: '', rememberMe: false })
+        navigate('/dashboard')
       }
     } catch (error) {
-      toast.error('An unexpected error occurred. Please try again later.');
-      console.error(error);
+      toast.error('An unexpected error occurred. Please try again later.')
+      console.error(error)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
 
-return (
-  <div className="min-h-screen" style={{ backgroundColor: '#252425' }}>
-    <nav className="bg-white dark:bg-gray-800 shadow-md">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16">
-          <div className="flex">
-            <div className="flex-shrink-0 flex items-center">
-              <span className="text-2xl font-bold text-purple-600 dark:text-purple-400">APDS7311 International Payment Portal</span>
+  return (
+    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-purple-600 to-indigo-700 p-4">
+      <div className="w-full max-w-md bg-white rounded-lg shadow-xl overflow-hidden">
+        <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-4">
+          <h2 className="text-2xl font-bold text-center text-white">APDS7311 International Payment Portal</h2>
+        </div>
+        <div className="p-6">
+          <h3 className="text-xl font-semibold text-gray-800 mb-6 text-center">Login to Your Account</h3>
+          <form onSubmit={loginUser} className="space-y-6">
+            <div>
+              <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
+                Username
+              </label>
+              <div className="relative">
+                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <input
+                  id="username"
+                  type="text"
+                  value={data.username}
+                  onChange={(e) => setData({ ...data, username: e.target.value })}
+                  className="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  placeholder="Enter your username"
+                />
+              </div>
             </div>
-            {/* <div className="hidden sm:ml-6 sm:flex sm:space-x-8">
-              <a href="#" className="border-transparent text-gray-500 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700 hover:text-gray-700 dark:hover:text-gray-200 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                Home
-              </a>
-              <a href="#" className="border-transparent text-gray-500 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-700 hover:text-gray-700 dark:hover:text-gray-200 inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                Register
-              </a>
-              <a href="#" className="border-purple-500 text-gray-900 dark:text-white inline-flex items-center px-1 pt-1 border-b-2 text-sm font-medium">
-                Login
-              </a>
-            </div> */}
+            <div>
+              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
+                Password
+              </label>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                <input
+                  id="password"
+                  type="password"
+                  value={data.password}
+                  onChange={(e) => setData({ ...data, password: e.target.value })}
+                  className="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
+                  placeholder="Enter your password"
+                />
+              </div>
+            </div>
+            <div className="flex items-center">
+              <input
+                id="rememberMe"
+                type="checkbox"
+                checked={data.rememberMe}
+                onChange={(e) => setData({ ...data, rememberMe: e.target.checked })}
+                className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
+              />
+              <label htmlFor="rememberMe" className="ml-2 block text-sm text-gray-700">
+                Remember me
+              </label>
+            </div>
+            <button
+              type="submit"
+              disabled={isLoading}
+              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
+            >
+              {isLoading ? 'Logging in...' : 'Login'}
+            </button>
+          </form>
+          <div className="mt-4 text-center">
+            <a href="#" className="text-sm text-purple-600 hover:text-purple-500">
+              Forgot your password?
+            </a>
           </div>
-          {/* <div className="hidden sm:ml-6 sm:flex sm:items-center">
-            <Button variant="ghost" size="icon">
-              <User className="h-5 w-5" />
-              <span className="sr-only">User account</span>
-            </Button>
-            <Button variant="ghost" size="icon">
-              <LogOut className="h-5 w-5" />
-              <span className="sr-only">Log out</span>
-            </Button>
-          </div> */}
         </div>
       </div>
-    </nav>
-
-    <main className="max-w-md mx-auto py-12 px-4 sm:px-6 lg:px-8">
-      <Card className="shadow" style={{ backgroundColor: '#2a292a' }}>
-        <CardHeader>
-          <CardTitle className="text-3xl font-bold text-center text-gray-100">Login Portal</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <form onSubmit={loginUser} className="space-y-4">
-            <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-200">
-                Username: 
-              </label>
-              <Input
-                type="text"
-                id="username"
-                value={data.username}
-                onChange={(e) => setData({ ...data, username: e.target.value })}
-                placeholder="Enter username"
-                className="mt-1"
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-200">
-                Password:
-              </label>
-              <Input
-                type="password"
-                id="password"
-                value={data.password} 
-                onChange={(e) => setData({ ...data, password: e.target.value })}
-                placeholder="Enter password"
-                className="mt-1"
-              />
-            </div>
-            <Button type="submit" className="w-full">
-              Login
-            </Button>
-          </form>
-        </CardContent>
-      </Card>
-    </main>
-  </div>
-)
+      <div className="mt-8 flex items-center justify-center">
+        <CreditCard className="text-white mr-2" />
+        <span className="text-white font-medium">Secure Payment Gateway</span>
+      </div>
+    </div>
+  )
 }
-
