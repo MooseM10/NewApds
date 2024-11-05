@@ -10,17 +10,34 @@ const test = (req, res) => {
 const registerUser = async (req, res) => {
     try {
         const { username, idNumber, accountNumber, password } = req.body;
+        
+        console.log('Received registration data:', req.body); // Log the received data
 
         // Check required fields
         if (!username) return res.status(400).json({ error: 'Please enter username' });
         if (!idNumber) return res.status(400).json({ error: 'Please enter ID number' });
         if (!accountNumber) return res.status(400).json({ error: 'Please enter account number' });
-        if (!password || password.length < 6) return res.status(400).json({ error: 'Password required and should be 6 characters long' });
+        
+        // Check for password length
+        if (!password || password.length < 6) {
+            return res.status(400).json({ error: 'Password required and should be at least 6 characters long' });
+        }
+        
+        // Check if password contains at least one letter and one number
+        const hasLetter = /[a-zA-Z]/.test(password);
+        const hasNumber = /\d/.test(password);
+        console.log('Password validation:', { hasLetter, hasNumber }); // Log password validation results
+        
+        if (!hasLetter || !hasNumber) {
+            return res.status(400).json({ error: 'Password must contain at least one letter and one number' });
+        }
 
         // Check for existing user
         const existingUser = await User.findOne({ $or: [{ username }, { idNumber }, { accountNumber }] });
-        if (existingUser) return res.status(400).json({ error: 'Username, ID number, or account number is already used' });
-
+        if (existingUser) {
+            return res.status(400).json({ error: 'Username, ID number, or account number is already used' });
+        }
+        console.log('Received password:', password);
         // Hash and create user
         const hashedPassword = await hashPassword(password);
         const user = await User.create({ username, idNumber, accountNumber, password: hashedPassword });
@@ -36,6 +53,8 @@ const registerUser = async (req, res) => {
         return res.status(500).json({ error: 'Internal server error' });
     }
 };
+
+
 
 // Login endpoint
 const loginUser = async (req, res) => {

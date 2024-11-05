@@ -5,6 +5,7 @@
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "express-rate-limit": "^7.4.1",
+    "mongodb": "^6.10.0",
     "react-hot-toast": "^2.4.1",
     "tailwind-merge": "^2.5.4"
   },

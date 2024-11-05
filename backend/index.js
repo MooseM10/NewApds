@@ -5,6 +5,9 @@ const mongoose = require('mongoose');
 const cookieParser = require('cookie-parser');
 const fs = require('fs');
 const https = require('https');
+const helmet = require('helmet');
+const ExpressBrute = require('express-brute');
+const MemoryStore = require('express-brute').MemoryStore;
 const { loginUser } = require('./controllers/authController');
 const { isAuthenticated, isEmployee } = require('./middleware/authMiddleware'); 
 
@@ -26,10 +29,27 @@ const corsOptions = {
 };
 
 // Middleware
+app.use(helmet()); 
 app.use(cors(corsOptions)); // Set CORS options before any routes
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
+
+
+// Brute-force protection setup
+const store = new MemoryStore(); // Use MemoryStore for simplicity
+const bruteforce = new ExpressBrute(store, {
+    freeRetries: 5, // Allow 5 free retries before blocking
+    minWait: 5000, // Min wait time before blocking
+    maxWait: 60000, // Max wait time before unblocking
+    failCallback: (req, res, next, nextValidRequestDate) => {
+        res.status(429).send('Too many requests, please try again later.');
+    }
+});
+
+// Login route with brute-force protection
+app.post('/login', bruteforce.prevent, loginUser);
+
 // Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);

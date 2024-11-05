@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start":"node index.js",
+    "start": "node index.js",
     "dev": "nodemon index.js"
   },
   "author": "",
@@ -17,6 +17,9 @@
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
+    "express-brute": "^1.0.1",
+    "express-brute-memcached": "^0.0.1",
+    "helmet": "^8.0.0",
     "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.10.0",
     "mongoose": "^8.7.0",

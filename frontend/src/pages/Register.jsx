@@ -16,6 +16,8 @@ export default function Register() {
     password: '',
   });
 
+  const [loading, setLoading] = useState(false);
+  
   const validateInputs = () => {
     const usernamePattern = /^[a-zA-Z0-9]{3,15}$/; //3-15 characters
     const idNumberPattern = /^\d{13}$/; 
