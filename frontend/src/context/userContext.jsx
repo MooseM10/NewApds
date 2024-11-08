@@ -1,25 +1,31 @@
 import axios from 'axios';
-import { createContext, useState, useEffect } from 'react';
+import { createContext, useState, useEffect, useContext } from 'react';
 
-// Set up Axios defaults (or configure a custom instance if needed)
+// Axios default configuration
 axios.defaults.baseURL = 'http://localhost:8000';
 axios.defaults.withCredentials = true;
 
-const UserContext = createContext({});
+// Create the context
+export const UserContext = createContext();
 
-const UserContextProvider = ({ children }) => {
+// Custom hook to use the UserContext in other components
+export const useUserContext = () => {
+    return useContext(UserContext);
+};
+
+export const UserContextProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [isFetchingUser, setIsFetchingUser] = useState(true);
 
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const { data } = await axios.get('https://localhost:8000/profile');
+                const { data } = await axios.get('/profile');  // Replace with actual profile endpoint
                 console.log('User data fetched from backend:', data);
                 setUser(data);
             } catch (error) {
                 console.error('Failed to fetch user:', error);
-                setUser(null);
+                setUser(null);  // If fetching fails, set user to null
             } finally {
                 setIsFetchingUser(false);
             }
@@ -30,8 +36,10 @@ const UserContextProvider = ({ children }) => {
 
     const logout = async () => {
         try {
-            await axios.post('/logout');
-            setUser(null);
+            localStorage.removeItem('token');  // Clear token if stored in localStorage
+            await axios.post('/logout');  // Logout from backend
+            setUser(null);  // Reset user state
+            console.log('User logged out successfully');
         } catch (error) {
             console.error('Logout failed:', error);
         }
@@ -43,6 +51,3 @@ const UserContextProvider = ({ children }) => {
         </UserContext.Provider>
     );
 };
-
-// Export separately at the end
-export { UserContext, UserContextProvider };

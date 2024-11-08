@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { UserContext } from '../context/userContext';
+import { useUserContext  } from '../context/userContext';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { Button } from "../components/ui/Button";
@@ -9,7 +9,7 @@ import { Label } from "../components/ui/Label";
 import { LogOut, User, DollarSign, CreditCard, Hash, FileText } from 'lucide-react';
 
 export default function Dashboard() {
-    const { user,isFetchingUser } = useContext(UserContext);
+    const { user,isFetchingUser } = useUserContext();
     const [paymentData, setPaymentData] = useState({
         amount: '',
         currency: 'USD',

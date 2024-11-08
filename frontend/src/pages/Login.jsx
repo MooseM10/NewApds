@@ -1,13 +1,15 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useContext } from 'react'
 import axios from 'axios'
 import { toast } from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
 import { Lock, User, CreditCard } from 'lucide-react'
+import { UserContext } from '../context/userContext';  // Ensure the context is imported
 
 export default function Login() {
   const navigate = useNavigate()
+  const { setUser } = useContext(UserContext);  // Destructure the setUser function from context
   const [data, setData] = useState({
     username: '',
     password: '',
@@ -32,8 +34,11 @@ export default function Login() {
       if (response.data.error) {
         toast.error(response.data.error)
       } else {
+        // Assuming response.data contains the user data. Adjust based on your API response structure
+        const user = response.data.user;  // Extract user data from response
+        setUser(user);  // Store user data in context
         setData({ username: '', password: '', rememberMe: false })
-        navigate('/dashboard')
+        navigate('/dashboard')  // Navigate to the dashboard upon successful login
       }
     } catch (error) {
       toast.error('An unexpected error occurred. Please try again later.')
