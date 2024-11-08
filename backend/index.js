@@ -47,6 +47,16 @@ const bruteforce = new ExpressBrute(store, {
     }
 });
 
+
+// Profile Route - Accessible only by authenticated users
+app.get('/profile', isAuthenticated, (req, res) => {
+    if (!req.user) {
+        return res.status(404).json({ error: 'User not found' });
+    }
+    // If the user is authenticated, the `req.user` will be populated by the isAuthenticated middleware
+    res.json(req.user); // Respond with the user data
+});
+
 // Login route with brute-force protection
 app.post('/login', bruteforce.prevent, loginUser);
 

@@ -1,11 +1,24 @@
+
 import React from 'react';
 import { Route, Navigate } from 'react-router-dom';
-import { useUserContext } from '../context/userContext'; // Adjust the import based on your context file structure
+import { UserContext } from '../context/userContext';  // This is a custom hook for getting auth state
 
-const ProtectedRoute = ({ children  }) => {
-    const { user } = useUserContext(); // Use 'user' from context, assuming 'user' will be null if not authenticated
-
-    return user ? children  : <Navigate to="/login" replace />;
-};
-
+const ProtectedRoute = ({ component: Component, ...rest }) => {
+    const { user } = useAuth();
+    return (
+      <Route
+        {...rest}
+        render={(props) =>
+          user ? (
+            <div className="protected-route-wrapper"> {/* This could affect layout */}
+              <Component {...props} />
+            </div>
+          ) : (
+            <Redirect to="/login" />
+          )
+        }
+      />
+    );
+  };
+  
 export default ProtectedRoute;

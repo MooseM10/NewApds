@@ -20,12 +20,15 @@ export const UserContextProvider = ({ children }) => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const { data } = await axios.get('/profile');  // Replace with actual profile endpoint
-                console.log('User data fetched from backend:', data);
+                const { data } = await axios.get('/profile');
                 setUser(data);
             } catch (error) {
                 console.error('Failed to fetch user:', error);
-                setUser(null);  // If fetching fails, set user to null
+                setUser(null);
+                if (error.response && error.response.status === 403) {
+                    // Optional: Redirect to login or show a message for unauthorized access
+                    console.log('Not authorized. Redirecting to login...');
+                }
             } finally {
                 setIsFetchingUser(false);
             }

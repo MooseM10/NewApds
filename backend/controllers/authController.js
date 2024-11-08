@@ -81,7 +81,7 @@ const loginUser = async (req, res) => {
             httpOnly: true,
             secure: process.env.NODE_ENV === 'production', // This should be true in production
             sameSite: 'strict',
-        }).json({ user: { username: user.username, id: user._id }, message: 'Login successful' });
+        }).json({ user: { username: user.username, id: user._id }, message: 'Login successful', token: token });
     } catch (error) {
         console.error(error);
         return res.status(500).json({ error: 'Internal server error' });
@@ -101,15 +101,15 @@ const authenticateToken = (req, res, next) => {
 
 // Get profile endpoint
 const getProfile = (req, res) => {
-    const { token } = req.cookies;
+    const token = req.headers['authorization']?.split(' ')[1]; // Bearer token
+
     if (token) {
         jwt.verify(token, process.env.JWT_SECRET, {}, (err, user) => {
             if (err) return res.status(401).json({ error: 'Invalid token' });
             res.json(user); // Send user profile details
         });
     } else {
-        console.log('Retrieving profile for user with token:', req.cookies.token);
-        res.json(null); // No token, no profile data
+        return res.status(401).json({ error: 'No token provided' });
     }
 };
 

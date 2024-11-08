@@ -21,6 +21,9 @@ function App() {
                 <Route path='/login' element={<Login />} />
                 <Route path='/dashboard' element={<Dashboard />} />
                 <Route path='/transactions' element={<EmployeeDashboard />} />
+                
+                 {/* <Route path='/dashboard' element={<ProtectedRoute element={<Dashboard />} />} />
+                <Route path='/transactions' element={<ProtectedRoute element={<EmployeeDashboard />} />} /> */}
             </Routes>
         </UserContextProvider>
     );
