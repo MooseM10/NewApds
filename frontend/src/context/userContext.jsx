@@ -1,6 +1,5 @@
 import axios from 'axios';
-import React,  { createContext, useState, useEffect } from 'react';
-import { toast } from 'react-hot-toast';
+import { createContext, useState, useEffect } from 'react';
 
 // Set up Axios defaults (or configure a custom instance if needed)
 axios.defaults.baseURL = 'http://localhost:8000';
@@ -15,7 +14,8 @@ const UserContextProvider = ({ children }) => {
     useEffect(() => {
         const fetchUser = async () => {
             try {
-                const { data } = await axios.get('/profile');
+                const { data } = await axios.get('https://localhost:8000/profile');
+                console.log('User data fetched from backend:', data);
                 setUser(data);
             } catch (error) {
                 console.error('Failed to fetch user:', error);
@@ -30,19 +30,15 @@ const UserContextProvider = ({ children }) => {
 
     const logout = async () => {
         try {
-            const response = await axios.post('/logout');
-            if (response.status === 200) {
-                setUser(null); // Clear user state on successful logout
-                toast.success('Logged out successfully!'); // Optional: notify the user
-            }
+            await axios.post('/logout');
+            setUser(null);
         } catch (error) {
             console.error('Logout failed:', error);
-            toast.error('Logout failed. Please try again.'); // Optional: notify the user
         }
     };
 
     return (
-        <UserContext.Provider value={{ user, setUser, isFetchingUser,logout }}>
+        <UserContext.Provider value={{ user, setUser, logout, isFetchingUser }}>
             {children}
         </UserContext.Provider>
     );

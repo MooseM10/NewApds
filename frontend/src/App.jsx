@@ -9,7 +9,7 @@ import Register from '../src/pages/Register';
 import Login from "../src/pages/Login";
 import axios from "axios";
 import { Toaster } from 'react-hot-toast'
-import { UserContextProvider } from '../context/userContext';
+import { UserContextProvider } from './context/userContext';
 import Dashboard from './pages/Dashboard';
 import EmployeeDashboard from './pages/EmployeeDashboard';
 
@@ -31,6 +31,7 @@ function App() {
           <Route path='/login' element={<Login />} />
           <Route path='/dashboard' element={<Dashboard />} />
           <Route path='/transactions' element={<EmployeeDashboard />} />
+          
         </Routes>
     </UserContextProvider>
   );

@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { UserContext } from '../../context/userContext';
+import { UserContext } from '../context/userContext';
 import axios from 'axios';
 import { toast } from 'react-hot-toast';
 import { Button } from "../components/ui/Button";
@@ -9,7 +9,7 @@ import { Label } from "../components/ui/Label";
 import { LogOut, User, DollarSign, CreditCard, Hash, FileText } from 'lucide-react';
 
 export default function Dashboard() {
-    const { user } = useContext(UserContext);
+    const { user,isFetchingUser } = useContext(UserContext);
     const [paymentData, setPaymentData] = useState({
         amount: '',
         currency: 'USD',
@@ -21,6 +21,12 @@ export default function Dashboard() {
 
     const handlePayment = async (e) => {
         e.preventDefault();
+
+
+    if (isFetchingUser) {
+        toast.error('Please wait while we load your user details...');
+        return;
+    }
 
         if (!user) {
             toast.error('You must be logged in to make a payment');
