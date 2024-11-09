@@ -1,7 +1,10 @@
 
 import React from 'react';
 import { Route, Navigate } from 'react-router-dom';
-import { UserContext } from '../context/userContext';  // This is a custom hook for getting auth state
+import { UserContext } from '../context/userContext';  
+
+//CODE ATTRIBUTION
+//https://www.geeksforgeeks.org/how-to-create-a-protected-route-with-react-router-dom/
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
     const { user } = useAuth();

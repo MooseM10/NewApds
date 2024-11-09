@@ -6,6 +6,9 @@ const test = (req, res) => {
     res.json('test is working');
 };
 
+//CODE ATTRIUBTION: 
+//https://auth0.com/docs/secure/tokens/json-web-tokens
+
 // Register endpoint
 const registerUser = async (req, res) => {
     try {
@@ -38,6 +41,9 @@ const registerUser = async (req, res) => {
             return res.status(400).json({ error: 'Username, ID number, or account number is already used' });
         }
         console.log('Received password:', password);
+
+        //CODE ATTRIBUTION 
+        //https://supertokens.com/blog/password-hashing-salting#:~:text=It%20involves%20adding%20a%20unique,rainbow%20tables)%20to%20crack%20hashes.
         // Hash and create user
         const hashedPassword = await hashPassword(password);
         const user = await User.create({ username, idNumber, accountNumber, password: hashedPassword });

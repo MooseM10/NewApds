@@ -7,6 +7,10 @@ const bcrypt = require('bcrypt');
  * @param {number} saltRounds - The number of salt rounds to use (default is 12).
  * @returns {Promise<string>} - The hashed password.
  */
+
+//CODE ATTRIBUTION:
+//https://supertokens.com/blog/password-hashing-salting#:~:text=It%20involves%20adding%20a%20unique,rainbow%20tables)%20to%20crack%20hashes.
+
 const hashPassword = async (password, saltRounds = 12) => {
     try {
         // Generate a salt

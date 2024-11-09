@@ -1,6 +1,9 @@
 import axios from 'axios';
 import { createContext, useState, useEffect, useContext } from 'react';
 
+//CODE ATTRIBUTION
+//https://legacy.reactjs.org/docs/context.html
+
 // Axios default configuration
 axios.defaults.baseURL = 'http://localhost:8000';
 axios.defaults.withCredentials = true;
