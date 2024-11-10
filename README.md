@@ -56,7 +56,7 @@ This project is a secure international payments portal with a focus on both cust
 1. Clone the repository:
    ```bash
    git clone https://github.com/MooseM10/NewApds.git
-   cd yourproject
+   cd NewApds
    ```
 2. Install dependencies for both frontend and backend:
    - **Backend**:
