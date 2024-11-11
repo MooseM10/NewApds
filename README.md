@@ -25,11 +25,12 @@ This project is a secure international payments portal with a focus on both cust
 - **Form Validation**:
   - Enforced via client-side validation to ensure data accuracy and integrity.
 - **Secure Passwords**:
-  - Passwords are hashed before storage.
+  - Passwords are hashed and salted before storage.
 - **Session Management**:
   - User sessions are securely handled.
 - **Security Measures**:
   - Helmet and Express-Brute are used for enhanced security.
+  -Self Signed Certificate for SSL 
   - Protection against threats like session hijacking, clickjacking, SQL injection, XSS, MitM attacks, and DDoS.
 
 ### Employee International Payments Portal
@@ -130,5 +131,5 @@ Password: At least 6 characters, containing at least one letter and one number
 ## Security Testing and CI/CD
 - **SonarQube**: Integrated via CircleCI to continuously analyze code for potential issues and code smells.
 - **MobSF and ScoutSuite**: Used for testing security aspects of the mobile app and cloud environment.
-- **NewMan Testing: Used to validate the pipeline for the various api end points in this project. 
+- **NewMan Testing**: Used to validate the pipeline for the various api end points in this project. 
 
