@@ -130,5 +130,5 @@ Password: At least 6 characters, containing at least one letter and one number
 ## Security Testing and CI/CD
 - **SonarQube**: Integrated via CircleCI to continuously analyze code for potential issues and code smells.
 - **MobSF and ScoutSuite**: Used for testing security aspects of the mobile app and cloud environment.
-
+- **NewMan Testing: Used to validate the pipeline for the various api end points in this project. 
 
