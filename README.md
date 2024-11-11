@@ -1,91 +1,96 @@
-APDS PART TWO
+APDS PART 3
 GROUP MEMBERS:
 SIYA MSWELI ST10083465
 MATHEW SCRUSE ST10083471
 SALMAAN MALL ST10154889
 SIPHELELISILE MBAMBO ST10145327
 
-Video link:https://youtu.be/1lY8LyHw0dQ
+Video link:___________________
 
-# User Registration and Login System
 
-This is a user registration and login system built with React, Express, Node.js, and MongoDB. The system allows users to register with a username, ID number, account number, and password, which are validated using regex patterns. It also implements secure authentication and stores data in a MongoDB database.
+# Comprehensive International Payments Portal
+
+## Overview
+This project is a secure international payments portal with a focus on both customer and employee access, ensuring robust data security and meeting specified business requirements.
 
 ## Features
 
-- **User Registration**: Users can register with a unique username, ID number, account number, and password. Input validation is enforced using regex patterns.
-- **Login**: Registered users can log in using their username and password.
-- **Form Validation**: Client-side validation using regex ensures that all input fields conform to required formats.
-- **Secure Passwords**: Passwords are hashed before being stored in the database.
-- **Session Management**: User sessions are securely managed, allowing access to certain pages only after logging in.
-- **Basic Security**: Helmet is used to improve app security by setting various HTTP headers, and Express-Brute prevents brute force login attempts.
+### Customer International Payments Portal
+- **User Registration & Login**: 
+  - Allows registration with username, ID number, account number, and password.
+  - Input validation enforced through regex patterns.
+  - Secure authentication using JWT (JSON Web Tokens).
+- **Payment Processing**:
+  - Customers can input payment details, select currency and provider, and enter SWIFT codes.
+- **Form Validation**:
+  - Enforced via client-side validation to ensure data accuracy and integrity.
+- **Secure Passwords**:
+  - Passwords are hashed before storage.
+- **Session Management**:
+  - User sessions are securely handled.
+- **Security Measures**:
+  - Helmet and Express-Brute are used for enhanced security.
+  - Protection against threats like session hijacking, clickjacking, SQL injection, XSS, MitM attacks, and DDoS.
 
-## Technologies Used
+### Employee International Payments Portal
+- **No Registration Required**:
+  - Employees do not register; they access the portal using pre-configured credentials.
+- **Password Security**:
+  - Enforced with hashing and salting mechanisms.
+- **RegEx-Based Input Whitelisting**:
+  - All user input is validated using defined regular expressions.
+- **Secure Traffic**:
+  - All communication is encrypted using SSL.
+- **Security Against Web Attacks**:
+  - Comprehensive protection measures, as described above.
+- **CI/CD Integration**:
+  - GitHub repository integration with CircleCI pipeline for continuous SonarQube scans, identifying hotspots and code smells.
 
-- **Frontend**: React
-- **Backend**: Node.js, Express.js
-- **Database**: MongoDB
-- **Authentication**: JWT (JSON Web Tokens)
-- **Validation**: Regex patterns
-- **Security**: Helmet, Express-Brute, dotenv, express, Cors
+## Installation & Setup
 
-## Installation and Setup
+### Prerequisites
+- Node.js
+- MongoDB
 
+### Steps
 1. Clone the repository:
-
    ```bash
-   git clone https://github.com/yourusername/yourproject.git
-   cd yourproject
+   git clone https://github.com/MooseM10/NewApds.git
+   cd NewApds
    ```
-
-2. Install dependencies for both the frontend and backend:
-
-   For the backend:
-   ```bash
-   cd backend
-   npm install
-   ```
-
-   For the frontend:
-   ```bash
-   cd frontend
-   npm install
-   ```
-
-3. Create a `.env` file in the `backend/` directory and add the following environment variables:
-
-   ```
+2. Install dependencies for both frontend and backend:
+   - **Backend**:
+     ```bash
+     cd backend
+     npm install
+     ```
+   - **Frontend**:
+     ```bash
+     cd frontend
+     npm install
+     ```
+3. Set up environment variables by creating a `.env` file:
+   ```plaintext
    MONGO_URI=mongodb://localhost:27017/yourdbname
    JWT_SECRET=your_jwt_secret
    ```
-
 4. Start the backend server:
-
    ```bash
    cd backend
    npm run dev
    ```
-
 5. Start the frontend server:
-
    ```bash
    cd frontend
    npm start
    ```
-
-6. Open your browser and go to:
-
-   ```
-   http://localhost:5173
-   ```
+6. Open `http://localhost:5173` to access the portal.
 
 ## API Endpoints
 
 ### Register
-
 - **Endpoint**: `/register`
 - **Method**: POST
-- **Description**: Register a new user with username, ID number, account number, and password.
 - **Request Body**:
   ```json
   {
@@ -97,10 +102,8 @@ This is a user registration and login system built with React, Express, Node.js,
   ```
 
 ### Login
-
 - **Endpoint**: `/login`
 - **Method**: POST
-- **Description**: Log in a user using their username and password.
 - **Request Body**:
   ```json
   {
@@ -108,36 +111,24 @@ This is a user registration and login system built with React, Express, Node.js,
     "password": "password123"
   }
   ```
-
+  
 ### Protected Routes
-
 Access to certain routes is restricted to authenticated users. Users need to log in to access the dashboard or perform other actions.
 
-## Input Validation
-
+### Input Validation
 The following regex patterns are used for input validation:
 
-- **Username**: Alphanumeric, 3-15 characters
-  ```regex
-  /^[a-zA-Z0-9]{3,15}$/
-  ```
-- **ID Number**: 13 digits
-  ```regex
-  /^\d{13}$/
-  ```
-- **Account Number**: 6-20 digits
-  ```regex
-  /^\d{6,20}$/
-  ```
-- **Password**: At least 6 characters, containing at least one letter and one number
-  ```regex
-  /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/
-  ```
+Username: Alphanumeric, 3-15 characters
+/^[a-zA-Z0-9]{3,15}$/
+ID Number: 13 digits
+/^\d{13}$/
+Account Number: 6-20 digits
+/^\d{6,20}$/
+Password: At least 6 characters, containing at least one letter and one number
+/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/
 
-## Security Features
-
-- **Helmet**: Helmet is used to secure Express apps by setting various HTTP headers.
-- **Express-Brute**: Protects against brute-force login attempts by limiting the number of requests to the login endpoint.
-
+## Security Testing and CI/CD
+- **SonarQube**: Integrated via CircleCI to continuously analyze code for potential issues and code smells.
+- **MobSF and ScoutSuite**: Used for testing security aspects of the mobile app and cloud environment.
 
 
