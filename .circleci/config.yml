@@ -42,12 +42,35 @@ jobs:
           -Dsonar.login="$SONAR_TOKEN" \
           -Dsonar.branch.name="$SONAR_BRANCH" \
           -Dsonar.sources="."
+  
+  newmantest:
+    docker:
+       - image: cimg/node:18.20.2
+    resource_class: small
+    steps:
+      - checkout
+      - run
+          name: Install dependencies
+          command:  |
+            cd BACKEND
+            npm install 
+      - run
+        name: Run Newman tests
+        command:  |
+          cd BACKEND
+          npm run test-api &
+      - attach_workspace:
+          at: ~/workspace
 
 # Orchestrate jobs using workflows
 # See: https://circleci.com/docs/workflows/ & https://circleci.com/docs/configuration-reference/#workflows
 workflows:
+  version: 2
   say-hello-workflow: # This is the name of the workflow, feel free to change it to better match your workflow.
     # Inside the workflow, you define the jobs you want to run.
     jobs:
       - say-hello
       - sonarqube
+      - newmantest:
+          requires:
+             -sonarqube
