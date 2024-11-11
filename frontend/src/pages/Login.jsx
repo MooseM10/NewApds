@@ -47,79 +47,94 @@ export default function Login() {
       setIsLoading(false)
     }
   }
-
+  
+ 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-r from-purple-600 to-indigo-700 p-4">
-      <div className="w-full max-w-md bg-white rounded-lg shadow-xl overflow-hidden">
-        <div className="bg-gradient-to-r from-blue-500 to-purple-600 p-4">
-          <h2 className="text-2xl font-bold text-center text-white">APDS7311 International Payment Portal</h2>
-        </div>
-        <div className="p-6">
-          <h3 className="text-xl font-semibold text-gray-800 mb-6 text-center">Login to Your Account</h3>
-          <form onSubmit={loginUser} className="space-y-6">
-            <div>
-              <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-1">
-                Username
-              </label>
-              <div className="relative">
-                <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                <input
-                  id="username"
-                  type="text"
-                  value={data.username}
-                  onChange={(e) => setData({ ...data, username: e.target.value })}
-                  className="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  placeholder="Enter your username"
-                />
-              </div>
-            </div>
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1">
-                Password
-              </label>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
-                <input
-                  id="password"
-                  type="password"
-                  value={data.password}
-                  onChange={(e) => setData({ ...data, password: e.target.value })}
-                  className="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-500"
-                  placeholder="Enter your password"
-                />
-              </div>
-            </div>
-            <div className="flex items-center">
-              <input
-                id="rememberMe"
-                type="checkbox"
-                checked={data.rememberMe}
-                onChange={(e) => setData({ ...data, rememberMe: e.target.checked })}
-                className="h-4 w-4 text-purple-600 focus:ring-purple-500 border-gray-300 rounded"
-              />
-              <label htmlFor="rememberMe" className="ml-2 block text-sm text-gray-700">
-                Remember me
-              </label>
-            </div>
-            <button
-              type="submit"
-              disabled={isLoading}
-              className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500"
-            >
-              {isLoading ? 'Logging in...' : 'Login'}
-            </button>
-          </form>
-          <div className="mt-4 text-center">
-            <a href="#" className="text-sm text-purple-600 hover:text-purple-500">
-              Forgot your password?
-            </a>
+    <div style={{
+      minHeight: '100vh',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      backgroundColor: '#000', // black background
+      color: '#FFD700', // yellow text color
+      padding: '20px',
+      boxSizing: 'border-box',
+      textAlign: 'center',
+    }}>
+      <div style={{
+        width: '100%',
+        maxWidth: '400px',
+        backgroundColor: '#333',
+        borderRadius: '8px',
+        padding: '30px',
+      }}>
+        <h2 style={{ color: '#FFD700', marginBottom: '20px' }}>Login</h2>
+        <form onSubmit={loginUser}>
+          <div style={{ marginBottom: '15px' }}>
+            <label style={{ display: 'block', marginBottom: '5px' }}>Username</label>
+            <input
+              type="text"
+              value={data.username}
+              onChange={(e) => setData({ ...data, username: e.target.value })}
+              style={{
+                width: '100%',
+                padding: '10px',
+                borderRadius: '5px',
+                border: '1px solid #FFD700',
+                backgroundColor: '#222',
+                color: '#FFD700',
+              }}
+              placeholder="Enter username"
+            />
           </div>
+          <div style={{ marginBottom: '15px' }}>
+            <label style={{ display: 'block', marginBottom: '5px' }}>Password</label>
+            <input
+              type="password"
+              value={data.password}
+              onChange={(e) => setData({ ...data, password: e.target.value })}
+              style={{
+                width: '100%',
+                padding: '10px',
+                borderRadius: '5px',
+                border: '1px solid #FFD700',
+                backgroundColor: '#222',
+                color: '#FFD700',
+              }}
+              placeholder="Enter password"
+            />
+          </div>
+          <div style={{ marginBottom: '20px', textAlign: 'left' }}>
+            <input
+              type="checkbox"
+              checked={data.rememberMe}
+              onChange={(e) => setData({ ...data, rememberMe: e.target.checked })}
+              style={{ marginRight: '5px' }}
+            />
+            <label>Remember me</label>
+          </div>
+          <button
+            type="submit"
+            disabled={isLoading}
+            style={{
+              width: '100%',
+              padding: '10px',
+              backgroundColor: '#FFD700',
+              color: '#000',
+              borderRadius: '5px',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+            }}
+          >
+            {isLoading ? 'Logging in...' : 'Login'}
+          </button>
+        </form>
+        <div style={{ marginTop: '20px' }}>
+          <a href="#" style={{ color: '#FFD700', textDecoration: 'none' }}>
+            Forgot your password?
+          </a>
         </div>
-      </div>
-      <div className="mt-8 flex items-center justify-center">
-        <CreditCard className="text-white mr-2" />
-        <span className="text-white font-medium">Secure Payment Gateway</span>
       </div>
     </div>
   )
-}
+} 

@@ -59,99 +59,105 @@ export default function Dashboard() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-r from-purple-600 to-indigo-700 p-8">
-            <Card className="max-w-2xl mx-auto">
-                <CardHeader className="text-center">
-                    <CardTitle className="text-3xl font-bold">Customer International Payment</CardTitle>
-                    <CardDescription>
-                        {user ? `Welcome, ${user.username}!` : 'Please log in to make a payment'}
-                    </CardDescription>
-                </CardHeader>
-                <CardContent>
-    <form onSubmit={handlePayment} className="space-y-6">
-    <table className="w-full bg-teal-500 rounded-lg shadow-md">
-    <tbody>
-        <tr>
-            <td className="p-4 border-b border-gray-600 bg-teal-500 !important"> {/* Change bg-gray-700 to bg-teal-500 */}
-                <Label htmlFor="amount" className="text-white">Amount</Label>
-                <div className="relative">
-                    <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300" />
+        <div className="min-h-screen bg-gradient-to-r from-black to-gray-800 p-8">
+        <Card className="max-w-lg mx-auto bg-white text-gray-800 shadow-lg rounded-lg">
+          <CardHeader className="text-center">
+            <CardTitle className="text-2xl font-semibold text-gray-900">Customer International Payment</CardTitle>
+            <CardDescription className="text-gray-500">
+              {user ? `Welcome, ${user.username}!` : 'Please log in to make a payment'}
+            </CardDescription>
+          </CardHeader>
+          
+          <CardContent>
+            <form onSubmit={handlePayment} className="space-y-6">
+              <div className="space-y-4">
+                {/* Amount */}
+                <div>
+                  <Label htmlFor="amount" className="text-gray-700">Amount</Label>
+                  <div className="relative">
+                    <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                     <Input
-                        id="amount"
-                        type="number"
-                        placeholder="Enter amount"
-                        value={paymentData.amount}
-                        onChange={(e) => setPaymentData({ ...paymentData, amount: e.target.value })}
-                        className="pl-10 bg-gray-800 text-white border border-gray-600 focus:ring focus:ring-purple-500 focus:outline-none" /* Dark input background */
+                      id="amount"
+                      type="number"
+                      placeholder="Enter amount"
+                      value={paymentData.amount}
+                      onChange={(e) => setPaymentData({ ...paymentData, amount: e.target.value })}
+                      className="pl-10 w-full bg-gray-200 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600"
                     />
+                  </div>
                 </div>
-            </td>
-            <td className="p-4 border-b border-gray-600 bg-teal-500 !important"> {/* Change bg-gray-700 to bg-teal-500 */}
-                <Label htmlFor="currency" className="text-white">Currency</Label>
-                <select
+  
+                {/* Currency */}
+                <div>
+                  <Label htmlFor="currency" className="text-gray-700">Currency</Label>
+                  <select
                     id="currency"
                     value={paymentData.currency}
                     onChange={(e) => setPaymentData({ ...paymentData, currency: e.target.value })}
-                    className="w-full pl-10 pr-3 py-2 text-gray-900 bg-gray-800 border border-gray-600 rounded-md focus:outline-none focus:ring-2 focus:ring-purple-600 focus:border-transparent"
-                >
+                    className="w-full bg-gray-200 text-gray-900 border border-gray-300 rounded-lg pl-3 pr-3 py-2 focus:ring-2 focus:ring-green-600"
+                  >
                     <option value="USD">USD</option>
                     <option value="EUR">EUR</option>
                     <option value="ZAR">ZAR</option>
-                </select>
-            </td>
-        </tr>
-        <tr>
-            <td className="p-4 border-b border-gray-600 bg-teal-500 !important"> {/* Change bg-gray-700 to bg-teal-500 */}
-                <Label htmlFor="swiftCode" className="text-white">SWIFT Code</Label>
-                <div className="relative">
-                    <Hash className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300" />
-                    <Input
-                        id="swiftCode"
-                        type="text"
-                        placeholder="Enter SWIFT code"
-                        value={paymentData.swiftCode}
-                        onChange={(e) => setPaymentData({ ...paymentData, swiftCode: e.target.value })}
-                        className="pl-10 bg-gray-800 text-white border border-gray-600 focus:ring focus:ring-purple-500 focus:outline-none" /* Dark input background */
-                    />
+                  </select>
                 </div>
-            </td>
-            <td className="p-4 border-b border-gray-600 bg-teal-500 !important"> {/* Change bg-gray-700 to bg-teal-500 */}
-                <Label htmlFor="accountNumber" className="text-white">Account Number</Label>
-                <div className="relative">
-                    <CreditCard className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300" />
+  
+                {/* SWIFT Code */}
+                <div>
+                  <Label htmlFor="swiftCode" className="text-gray-700">SWIFT Code</Label>
+                  <div className="relative">
+                    <Hash className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                     <Input
-                        id="accountNumber"
-                        type="text"
-                        placeholder="Enter account number"
-                        value={paymentData.accountNumber}
-                        onChange={(e) => setPaymentData({ ...paymentData, accountNumber: e.target.value })}
-                        className="pl-10 bg-gray-800 text-white border border-gray-600 focus:ring focus:ring-purple-500 focus:outline-none" /* Dark input background */
+                      id="swiftCode"
+                      type="text"
+                      placeholder="Enter SWIFT code"
+                      value={paymentData.swiftCode}
+                      onChange={(e) => setPaymentData({ ...paymentData, swiftCode: e.target.value })}
+                      className="pl-10 w-full bg-gray-200 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600"
                     />
+                  </div>
                 </div>
-            </td>
-        </tr>
-        <tr>
-            <td className="p-4 border-b border-gray-600 bg-teal-500 !important" colSpan="2"> {/* Change bg-gray-700 to bg-teal-500 */}
-                <Label htmlFor="reference" className="text-white">Reference</Label>
-                <div className="relative">
-                    <FileText className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-300" />
+  
+                {/* Account Number */}
+                <div>
+                  <Label htmlFor="accountNumber" className="text-gray-700">Account Number</Label>
+                  <div className="relative">
+                    <CreditCard className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
                     <Input
-                        id="reference"
-                        type="text"
-                        placeholder="Enter payment reference"
-                        value={paymentData.reference}
-                        onChange={(e) => setPaymentData({ ...paymentData, reference: e.target.value })}
-                        className="pl-10 bg-gray-800 text-white border border-gray-600 focus:ring focus:ring-purple-500 focus:outline-none" /* Dark input background */
+                      id="accountNumber"
+                      type="text"
+                      placeholder="Enter account number"
+                      value={paymentData.accountNumber}
+                      onChange={(e) => setPaymentData({ ...paymentData, accountNumber: e.target.value })}
+                      className="pl-10 w-full bg-gray-200 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600"
                     />
+                  </div>
                 </div>
-            </td>
-        </tr>
-    </tbody>
-</table>
-        <Button type="submit" className="w-full">Save Payment</Button>
-    </form>
-</CardContent>
-            </Card>
-        </div>
+  
+                {/* Reference */}
+                <div>
+                  <Label htmlFor="reference" className="text-gray-700">Reference</Label>
+                  <div className="relative">
+                    <FileText className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400" />
+                    <Input
+                      id="reference"
+                      type="text"
+                      placeholder="Enter payment reference"
+                      value={paymentData.reference}
+                      onChange={(e) => setPaymentData({ ...paymentData, reference: e.target.value })}
+                      className="pl-10 w-full bg-gray-200 text-gray-900 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-600"
+                    />
+                  </div>
+                </div>
+              </div>
+  
+              {/* Submit Button */}
+              <Button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-white rounded-lg py-2 mt-4">
+                Save Payment
+              </Button>
+            </form>
+          </CardContent>
+        </Card>
+      </div>
     );
 }

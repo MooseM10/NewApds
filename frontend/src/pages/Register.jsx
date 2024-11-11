@@ -80,43 +80,110 @@ export default function Register() {
   
 
   return (
-    <div className="register-container">
-    <form className="register-form" onSubmit={registerUser}>
-      <label>Username:</label>
-      <input
-        type='text'
-        placeholder='Enter username'
-        value={data.username}
-        onChange={(e) => setData({ ...data, username: e.target.value })}
-      />
-      <br></br>
-      <label>ID Number:</label>
-      <input
-        type='text'
-        placeholder='Enter ID number'
-        value={data.idNumber}
-        onChange={(e) => setData({ ...data, idNumber: e.target.value })}
-      />
-         <br></br>
-      <label>Account Number:</label>
-      <input
-        type='text'
-        placeholder='Enter account number'
-        value={data.accountNumber}
-        onChange={(e) => setData({ ...data, accountNumber: e.target.value })}
-      />
-         <br></br>
-      <label>Password:</label>
-      <input
-        type='password'
-        placeholder='Enter password'
-        value={data.password}
-        onChange={(e) => setData({ ...data, password: e.target.value })}
-      />
-         <br></br>
-      <button type='submit'>Submit</button>
-    </form>
-  </div>
+    <div className="register-container" style={{
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      minHeight: '100vh',
+      backgroundColor: '#000', // Black background
+      color: '#FFD700' // Yellow text color
+    }}>
+      <form className="register-form" onSubmit={registerUser} style={{
+        backgroundColor: '#222',
+        padding: '2rem',
+        borderRadius: '8px',
+        boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.2)',
+        display: 'flex',
+        flexDirection: 'column',
+        width: '100%',
+        maxWidth: '400px',
+        color: '#FFD700'
+      }}>
+        <h2 style={{
+          textAlign: 'center',
+          color: '#FFD700',
+          marginBottom: '1rem'
+        }}>Register</h2>
+
+        <label style={{ marginBottom: '0.5rem' }}>Username:</label>
+        <input
+          type='text'
+          placeholder='Enter username'
+          value={data.username}
+          onChange={(e) => setData({ ...data, username: e.target.value })}
+          style={{
+            padding: '0.5rem',
+            marginBottom: '1rem',
+            border: '1px solid #FFD700',
+            borderRadius: '4px',
+            color: '#FFD700',
+            backgroundColor: '#333'
+          }}
+        />
+
+        <label style={{ marginBottom: '0.5rem' }}>ID Number:</label>
+        <input
+          type='text'
+          placeholder='Enter ID number'
+          value={data.idNumber}
+          onChange={(e) => setData({ ...data, idNumber: e.target.value })}
+          style={{
+            padding: '0.5rem',
+            marginBottom: '1rem',
+            border: '1px solid #FFD700',
+            borderRadius: '4px',
+            color: '#FFD700',
+            backgroundColor: '#333'
+          }}
+        />
+
+        <label style={{ marginBottom: '0.5rem' }}>Account Number:</label>
+        <input
+          type='text'
+          placeholder='Enter account number'
+          value={data.accountNumber}
+          onChange={(e) => setData({ ...data, accountNumber: e.target.value })}
+          style={{
+            padding: '0.5rem',
+            marginBottom: '1rem',
+            border: '1px solid #FFD700',
+            borderRadius: '4px',
+            color: '#FFD700',
+            backgroundColor: '#333'
+          }}
+        />
+
+        <label style={{ marginBottom: '0.5rem' }}>Password:</label>
+        <input
+          type='password'
+          placeholder='Enter password'
+          value={data.password}
+          onChange={(e) => setData({ ...data, password: e.target.value })}
+          style={{
+            padding: '0.5rem',
+            marginBottom: '1.5rem',
+            border: '1px solid #FFD700',
+            borderRadius: '4px',
+            color: '#FFD700',
+            backgroundColor: '#333'
+          }}
+        />
+
+        <button type='submit' style={{
+          padding: '0.8rem 1.5rem',
+          fontSize: '1rem',
+          fontWeight: 'bold',
+          color: '#000',
+          backgroundColor: '#FFD700',
+          border: 'none',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          transition: 'background-color 0.3s ease',
+        }}>
+          Submit
+        </button>
+      </form>
+    </div>
   );
 }
 
